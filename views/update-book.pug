@@ -9,7 +9,7 @@ block content
       each error in errors
         li= error.message
 
-  form(action='/books/new', method='post')
+  form(action='/books/:id', method='post')
     div.form-group
       label.label(for='title') Title:
       input.form-control(type='text', id='title', name='title', value=book.title, required)

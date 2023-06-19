@@ -83,7 +83,7 @@ app.post('/books/new', async function(req, res, next) {
   */
 
  
-  app.post('/books/new', async function(req, res, next) {
+  app.post('/books/:id', async function(req, res, next) {
     const { title, author, genre, year } = req.body;
     const book = await Book.findByPk(req.params.id);
     await book.update({ title, author, genre, year }).catch(error => {
