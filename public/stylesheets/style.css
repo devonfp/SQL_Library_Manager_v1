@@ -3,6 +3,92 @@ body {
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
+
 a {
-  color: #00B7FF;
+  text-decoration: none;
+  color: green;
+  font-weight: bold;
+}
+
+
+/*
+a.book-title {
+  color: green;
+  font-weight: bold;
+}
+*/
+
+.green-button {
+  padding: 10px 20px;
+  color: white;
+  background: green;
+  /* border: 5px solid; */
+  border-radius: 3px;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  max-width: 800px;
+  /* margin: 0 auto; */
+  font-family: Arial, sans-serif;
+  /* border: 1px solid #ddd; */
+  /* margin-bottom: 20px; */
+  margin-top: 20px;
+}
+
+th, td {
+  text-align: left;
+  padding: 12px;
+}
+
+th {
+  background-color: white;
+  color: black;
+  /*border: 1px solid #ddd;*/
+  border-bottom: 2px solid black;
+}
+
+td {
+  border-bottom: 1px solid #ddd;
+}
+
+tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+
+
+form {
+  max-width: 500px; /* Adjust as needed */
+}
+
+label {
+  display: block;
+  font-weight: bold;
+  color: black;
+  margin-bottom: 10px;
+}
+
+input[type="text"], textarea {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+input[type="submit"] {
+  background-color: green;
+  color: white;
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+input[type="submit"]:hover {
+  background-color: darkgreen;
 }

@@ -2,8 +2,7 @@ extends layout
 
 block content
   h1= title
-  p Welcome to #{title}
-  a.button(href='/books/new') Create New Book
+  a.button.green-button(href='/books/new') Create New Book
 
   table
     thead
@@ -15,7 +14,7 @@ block content
     tbody
       - books.forEach(function(book) {
         tr
-          td
+          td.book-title
             a(href=`/books/${book.id}`) #{book.title}
           td #{book.author}
           td #{book.genre}

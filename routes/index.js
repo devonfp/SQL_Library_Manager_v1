@@ -31,11 +31,30 @@ app.get('/books/new', async function(req, res, next) {
   res.render('new-book', { title: 'New Book' });
 });
 
-app.post('/books/new', async function(req, res, next) {
-  const { title, author, genre, year } = req.body;
-  const book = await Book.create({ title, author, genre, year });
-  res.redirect('/books/' + book.id);
-});
+//app.post('/books/new', async function(req, res, next) {
+//const book = await Book.create(req.body);
+  //res.redirect('/books/');
+//});
+
+
+  app.post('/books/new', async (req, res, next) => {
+    const book = await Book.create(req.body).catch(error => {
+      if (error.name === 'SequelizeValidationError') {
+        const errors = error.errors.map(err => ({ field: err.path, message: err.message }));
+        res.render('new-book', { 
+          title: 'New Book', 
+          book: req.body, 
+          errors: errors 
+        });
+      } else {
+        next(error);
+      }
+    });
+    if (book) res.redirect('/books/');
+  });
+
+
+
 
 
 
@@ -53,12 +72,35 @@ app.get('/books/:id', async function(req, res, next) {
   }
 });
 
-app.post('/books/:id', async function(req, res, next) {
+/*
+app.post('/books/new', async function(req, res, next) {
   const { title, author, genre, year } = req.body;
     const book = await Book.findByPk(req.params.id);
     await book.update({ title, author, genre, year });
-    res.redirect(`/books/`);
-});
+    console.log('redirecting to /books');
+    res.redirect('/books');
+  });
+  */
+
+ 
+  app.post('/books/new', async function(req, res, next) {
+    const { title, author, genre, year } = req.body;
+    const book = await Book.findByPk(req.params.id);
+    await book.update({ title, author, genre, year }).catch(error => {
+        if (error.name === 'SequelizeValidationError') {
+          const errors = error.errors.map(err => ({ field: err.path, message: err.message }));
+          res.render('update-book', { 
+            title: 'Update Book', 
+            book: book, 
+            errors: errors 
+          });
+        } else {
+          next(error);
+        }
+      });
+      res.redirect('/books');
+  });
+
 
 
 
@@ -70,7 +112,8 @@ app.post('/books/:id/delete', async function(req, res, next) {
   }
   try {
     await book.destroy();
-    res.send('Book deleted successfully');
+    //res.send('Book deleted successfully');
+    res.redirect('/books');
   } catch (err) {
     res.status(400).send(err.message);
   }
@@ -94,6 +137,8 @@ app.use((error, req, res, next) => {
     res.json({ error: error.message });
   }
 });
+
+
 
 //const port = process.env.PORT || 3000;
 //app.listen(port, () => console.log(`Server running on port ${port}`));
