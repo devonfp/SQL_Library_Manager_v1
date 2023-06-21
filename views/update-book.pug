@@ -12,24 +12,24 @@ block content
   form(action='/books/:id', method='post')
     div.form-group
       label.label(for='title') Title:
-      input.form-control(type='text', id='title', name='title', value=book.title, required)
+      input.form-control(type='text', id='title', name='title', value=book.title)
 
     div.form-group
       label.label(for='author') Author:
-      input.form-control(type='text', id='author', name='author', value=book.author, required)
+      input.form-control(type='text', id='author', name='author', value=book.author)
 
     div.form-group
       label.label(for='genre') Genre:
-      input.form-control(type='text', id='genre', name='genre', value=book.genre, required)
+      input.form-control(type='text', id='genre', name='genre', value=book.genre)
 
     div.form-group
       label.label(for='year') Year:
-      input.form-control(type='text', id='year', name='year', value=book.year, required)
+      input.form-control(type='text', id='year', name='year', value=book.year)
 
     button.btn.btn-primary.green-button(type='submit') Update Book
 
     button.btn.btn-danger.green-button(type='button')
-      a(href='/books') Cancel
+      a.green-button(href='/books') Cancel
 
   form(action=`/books/${book.id}/delete`, method='post')
     button.btn.btn-danger.green-button(type='submit') Delete Book

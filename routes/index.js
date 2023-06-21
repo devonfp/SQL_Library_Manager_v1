@@ -73,34 +73,52 @@ app.get('/books/:id', async function(req, res, next) {
 });
 
 /*
-app.post('/books/new', async function(req, res, next) {
+app.post('/books/:id', async function(req, res, next) {
   const { title, author, genre, year } = req.body;
     const book = await Book.findByPk(req.params.id);
     await book.update({ title, author, genre, year });
     console.log('redirecting to /books');
     res.redirect('/books');
   });
-  */
+*/
 
- 
-  app.post('/books/:id', async function(req, res, next) {
-    const { title, author, genre, year } = req.body;
-    const book = await Book.findByPk(req.params.id);
-    await book.update({ title, author, genre, year }).catch(error => {
-        if (error.name === 'SequelizeValidationError') {
-          const errors = error.errors.map(err => ({ field: err.path, message: err.message }));
-          res.render('update-book', { 
-            title: 'Update Book', 
-            book: book, 
-            errors: errors 
-          });
-        } else {
-          next(error);
-        }
+
+app.post('/books/:id', async function(req, res, next) {
+  const { title, author, genre, year } = req.body;
+  const book = await Book.findByPk(req.params.id);
+
+  if (!book) {
+    const error = new Error('Book not found');
+    error.status = 404;
+    return next(error);
+  }
+
+  try {
+    await book.update({
+      title,
+      author,
+      genre,
+      year,
+    });
+
+    res.redirect('/books');
+  } catch (error) {
+    if (
+      error.name === 'SequelizeValidationError' ||
+      error.name === 'SequelizeUniqueConstraintError'
+    ) {
+      const errors = error.errors.map((err) => err.message);
+
+      res.render('update-book', {
+        title: 'Update Book',
+        book,
+        errors,
       });
-      res.redirect('/books');
-  });
-
+    } else {
+      throw error;
+    }
+  }
+});
 
 
 
