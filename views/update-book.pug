@@ -3,13 +3,13 @@ extends layout
 block content
   h1 Update Book
 
-  if errors
-    h2.error Oooops!
-    ul.error
-      each error in errors
-        li= error.message
+  if (errors && errors.length > 0)
+    .alert.alert-danger
+      ul
+        each error in errors
+          li= error
 
-  form(action='/books/:id', method='post')
+  form(action=`/books/${book.id}`, method='post')
     div.form-group
       label.label(for='title') Title:
       input.form-control(type='text', id='title', name='title', value=book.title)

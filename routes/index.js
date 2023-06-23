@@ -12,9 +12,6 @@ var app = express();
 
 /*Home Page*/
 app.get('/', async function(req, res, next) {
-  //const books = await Book.findAll();
-  //console.log(books);
-  //res.json(books);
   res.redirect('/books');
 });
 
@@ -30,11 +27,6 @@ app.get('/books', async function(req, res, next) {
 app.get('/books/new', async function(req, res, next) {
   res.render('new-book', { title: 'New Book' });
 });
-
-//app.post('/books/new', async function(req, res, next) {
-//const book = await Book.create(req.body);
-  //res.redirect('/books/');
-//});
 
 
   app.post('/books/new', async (req, res, next) => {
@@ -72,16 +64,6 @@ app.get('/books/:id', async function(req, res, next) {
   }
 });
 
-/*
-app.post('/books/:id', async function(req, res, next) {
-  const { title, author, genre, year } = req.body;
-    const book = await Book.findByPk(req.params.id);
-    await book.update({ title, author, genre, year });
-    console.log('redirecting to /books');
-    res.redirect('/books');
-  });
-*/
-
 
 app.post('/books/:id', async function(req, res, next) {
   const { title, author, genre, year } = req.body;
@@ -100,15 +82,12 @@ app.post('/books/:id', async function(req, res, next) {
       genre,
       year,
     });
-
+  
     res.redirect('/books');
   } catch (error) {
-    if (
-      error.name === 'SequelizeValidationError' ||
-      error.name === 'SequelizeUniqueConstraintError'
-    ) {
+    if (error.name === 'SequelizeValidationError') {
       const errors = error.errors.map((err) => err.message);
-
+  
       res.render('update-book', {
         title: 'Update Book',
         book,
@@ -130,7 +109,6 @@ app.post('/books/:id/delete', async function(req, res, next) {
   }
   try {
     await book.destroy();
-    //res.send('Book deleted successfully');
     res.redirect('/books');
   } catch (err) {
     res.status(400).send(err.message);
@@ -156,9 +134,5 @@ app.use((error, req, res, next) => {
   }
 });
 
-
-
-//const port = process.env.PORT || 3000;
-//app.listen(port, () => console.log(`Server running on port ${port}`));
 
 module.exports = app;
