@@ -128,9 +128,9 @@ app.use((req, res, next) => {
 app.use((error, req, res, next) => {
   res.status(error.status || 500);
   if (error.status === 404) {
-  res.send('Sorry! It appears the page you requested could not be found.');
+    res.render('page-not-found', {title: 'Page Not Found'});
   } else {
-    res.json({ error: error.message });
+    res.render('error', {title: 'Server Error'});
   }
 });
 
